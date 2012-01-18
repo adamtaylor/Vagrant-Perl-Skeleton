@@ -9,6 +9,8 @@ class git {
     package { git: ensure => latest }
 }
 
-include build-essential
-include vim
-include git
+class core {
+    include build-essential
+    include vim
+    include git
+}
