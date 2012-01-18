@@ -8,9 +8,13 @@ class vim {
 class git {
     package { git-core: ensure => latest }
 }
+class curl {
+    package { curl: ensure => latest }
+}
 
 class core {
     include build-essential
     include vim
     include git
+    include curl
 }
