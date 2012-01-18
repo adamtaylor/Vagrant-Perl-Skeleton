@@ -1,6 +1,6 @@
 #!ruby
 Vagrant::Config.run do |config|
-  config.vm.box = "debian_squeeze_32"
+  config.vm.box = "lucid32"
 
   # Enable the Puppet provisioner
   config.vm.provision :puppet do |puppet|

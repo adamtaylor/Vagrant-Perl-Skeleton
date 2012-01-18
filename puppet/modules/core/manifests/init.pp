@@ -6,7 +6,7 @@ class vim {
     package { vim: ensure => latest }
 }
 class git {
-    package { git: ensure => latest }
+    package { git-core: ensure => latest }
 }
 
 class core {
