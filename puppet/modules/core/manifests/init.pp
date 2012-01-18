@@ -1,4 +1,4 @@
-# Everybody needs these three!
+# Everybody needs these...
 class build-essential {
     package { build-essential: ensure => latest }
 }
