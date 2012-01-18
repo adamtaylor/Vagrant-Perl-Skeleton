@@ -9,6 +9,8 @@ Vagrant::Config.run do |config|
     puppet.manifest_file  = "site.pp"
   end
 
-  config.vm.forward_port("web", 80, 3000)
+  
+  config.vm.forward_port 80, 3000
+  
 
 end
