@@ -5,4 +5,5 @@ node default {
     }
 
     include core
+    include perlbrew
 }
