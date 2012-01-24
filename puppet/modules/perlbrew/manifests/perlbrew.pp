@@ -1,30 +1,49 @@
 class perlbrew::install {
+    #exec { 'set env vars':
+        #user => 'vagrant',
+        #cwd => '/home/vagrant',
+        #command => 'export PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
+        #before => Exec['install perlbrew'],
+    #}
+
     exec { 'install perlbrew':
-        command => '/usr/bin/curl -kL http://install.perlbrew.pl | /bin/bash',
+        require => Package['curl'],
+        environment => 'PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
+        command => '/usr/bin/sudo /usr/bin/curl -kL http://install.perlbrew.pl | /bin/bash',
+        user => 'vagrant',
+        cwd => '/home/vagrant',
         timeout => 100,
+        before => Exec['add perlbrew to $PATH'],
+        #logoutput => true,
     }
 
     # FIXME this at least, should only happen once
     exec { 'add perlbrew to $PATH':
         path => '/bin/',
-        command => 'echo "source ~/perl5/perlbrew/etc/bashrc" >> /root/.bashrc',
-        user => 'root',
-        #cwd => '/home/vagrant',
-        logoutput => 'true',
+        command => 'echo "source ~/perl5/perlbrew/etc/bashrc" >> /home/vagrant/.bashrc',
+        user => 'vagrant',
+        cwd => '/home/vagrant',
+        #logoutput => true,
+        before => Exec['perlbrew init'],
     }
 
     exec { 'perlbrew init':
-        command => '/root/perl5/perlbrew/bin/perlbrew init',
-        user => 'root',
-        logoutput => 'true',
+        #path => '/home/vagrant/perl5/perlbrew/bin',
+        environment => 'PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
+        command => '/home/vagrant/perl5/perlbrew/bin/perlbrew init',
+        user => 'vagrant',
+        #logoutput => 'true',
+        before => Exec['install perl 5.14.2'],
     }
 
     exec { 'install perl 5.14.2':
-        #path => '/root/perl5/perlbrew/bin',
-        command => '/root/perl5/perlbrew/bin/perlbrew install perl-5.14.2',
-        user => 'root',
-        #cwd => '/home/vagrant',
-        logoutput => 'true',
+        #path => '/home/vagrant/perl5/perlbrew/bin',
+        environment => 'PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
+        command => '/home/vagrant/perl5/perlbrew/bin/perlbrew install perl-5.14.2',
+        timeout => 1200,
+        user => 'vagrant',
+        cwd => '/home/vagrant',
+        logoutput => true,
     }
 
     #exec { 'set default perl':
