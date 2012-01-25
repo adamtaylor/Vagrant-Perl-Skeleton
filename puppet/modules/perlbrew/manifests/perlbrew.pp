@@ -40,23 +40,27 @@ class perlbrew::install {
         #path => '/home/vagrant/perl5/perlbrew/bin',
         environment => 'PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
         command => '/home/vagrant/perl5/perlbrew/bin/perlbrew install perl-5.14.2',
-        timeout => 1200,
+        timeout => 2400,
         user => 'vagrant',
         cwd => '/home/vagrant',
         logoutput => true,
+        before => Exec['set default perl'],
     }
 
-    #exec { 'set default perl':
+    exec { 'set default perl':
+        environment => 'PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
         #path => '/home/vagrant/perl5/perlbrew/bin',
-        #command => 'perlbrew switch perl-5.14.2',
-        #user => 'vagrant',
-        #cwd => '/home/vagrant',
-    #}
+        command => '/home/vagrant/perl5/perlbrew/bin/perlbrew switch perl-5.14.2',
+        user => 'vagrant',
+        cwd => '/home/vagrant',
+        before => Exec['install cpanm'],
+    }
 
-    #exec { 'install cpanm':
+    exec { 'install cpanm':
+        environment => 'PERLBREW_ROOT=/home/vagrant/perl5/perlbrew',
         #path => '/home/vagrant/perl5/perlbrew/bin',
-        #command => 'perlbrew install-cpanm',
-        #user => 'vagrant',
-        #cwd => '/home/vagrant',
-    #}
+        command => '/home/vagrant/perl5/perlbrew/bin/perlbrew install-cpanm',
+        user => 'vagrant',
+        cwd => '/home/vagrant',
+    }
 }
